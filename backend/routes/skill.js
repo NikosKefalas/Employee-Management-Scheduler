@@ -6,6 +6,7 @@ const {
   deleteSkill,
   updateSkill,
   post_many,
+  createExcel,
 } = require("../controllers/skillController");
 
 const router = express.Router();
@@ -13,10 +14,15 @@ const router = express.Router();
 //get all skils
 router.get("/", getSkills);
 
+router.get("/excel", createExcel);
+
 //get a single skill
 router.get("/:id", getSkill);
 
+//post many skills
 router.post("/many", post_many);
+
+//export Excel
 
 //create a new skill
 router.post("/", createSkill);

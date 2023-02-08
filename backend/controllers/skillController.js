@@ -1,9 +1,12 @@
 const Skill = require("../models/skillModel.js");
 const mongoose = require("mongoose");
 const Employee = require("../models/employeeModel.js");
+const XLSX = require("xlsx");
+const { find } = require("../models/skillModel.js");
+const { json } = require("body-parser");
 
 //get all skills
-const getSkills = async (req, res) => {
+const getSkills = async (req, res, next) => {
   const skill = await Skill.find({});
 
   res.status(200).json(skill);
@@ -36,6 +39,20 @@ const createSkill = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   } else res.status(400).json("This skills already exists!");
+};
+
+const createExcel = async (req, res) => {
+  const skill = await Skill.find({}, "title details").lean();
+
+  const workSheet = XLSX.utils.json_to_sheet(skill, { skipHeader: false });
+  const workBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workBook, workSheet, "skills");
+  // console.log(workSheet);
+  XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+  XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+
+  XLSX.writeFile(workBook, "skillsData.xlsx");
+  res.status(200).json(skill);
 };
 
 const post_many = (req, res) => {
@@ -117,4 +134,5 @@ module.exports = {
   deleteSkill,
   updateSkill,
   post_many,
+  createExcel,
 };
