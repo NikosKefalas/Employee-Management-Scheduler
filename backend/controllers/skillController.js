@@ -38,43 +38,43 @@ const createSkill = async (req, res) => {
   } else res.status(400).json("This skills already exists!");
 };
 
-// const post_many = (req, res) => {
-//   Skill.insertMany(req.body.map((skill) => new Skill(skill)))
-//     .then((result) => {
-//       res.status(200).json(result);
-//     })
-//     .catch((error) => {
-//       res.status(400).json({ error: error.message });
-//     });
-// };
-
-const post_many_skill = async (req, res) => {
-  console.log(req.body);
-
-  req.body.forEach(async (el) => {
-    if (!(await Skill.findOne({ title: el.title }))) {
-      console.log("mpika sto if");
-      console.log(el.title);
-      try {
-        console.log("eimai sto try");
-        const skill = await Skill.create({
-          title: el.title,
-          details: el.details,
-        });
-        console.log(skill);
-        console.log("egine to skill");
-        res.status(200).json(skill);
-      } catch (error) {
-        console.log("mpika sto catch");
-        console.log({ error: error.message });
-      }
-    } else {
-      console.log("mpika sto else");
-      res.status(400).json("This skills already exists!");
-      next();
-    }
-  });
+const post_many = (req, res) => {
+  Skill.insertMany(req.body.map((skill) => new Skill(skill)))
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error.message });
+    });
 };
+
+// const post_many_skill = async (req, res) => {
+//   console.log(req.body);
+
+//   req.body.forEach(async (el) => {
+//     if (!(await Skill.findOne({ title: el.title }))) {
+//       console.log("mpika sto if");
+//       console.log(el.title);
+//       try {
+//         console.log("eimai sto try");
+//         const skill = await Skill.create({
+//           title: el.title,
+//           details: el.details,
+//         });
+//         console.log(skill);
+//         console.log("egine to skill");
+//         res.status(200).json(skill);
+//       } catch (error) {
+//         console.log("mpika sto catch");
+//         console.log({ error: error.message });
+//       }
+//     } else {
+//       console.log("mpika sto else");
+//       res.status(400).json("This skills already exists!");
+//       next();
+//     }
+//   });
+// };
 
 //delete a skill
 const deleteSkill = async (req, res) => {
@@ -116,5 +116,5 @@ module.exports = {
   getSkill,
   deleteSkill,
   updateSkill,
-  post_many_skill,
+  post_many,
 };

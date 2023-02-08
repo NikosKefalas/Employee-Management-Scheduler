@@ -5,7 +5,7 @@ const {
   getSkill,
   deleteSkill,
   updateSkill,
-  post_many_skill,
+  post_many,
 } = require("../controllers/skillController");
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.get("/", getSkills);
 //get a single skill
 router.get("/:id", getSkill);
 
-router.post("/many", post_many_skill);
+router.post("/many", post_many);
 
 //create a new skill
 router.post("/", createSkill);
