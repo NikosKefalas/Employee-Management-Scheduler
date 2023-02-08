@@ -63,14 +63,6 @@ const EmployeeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const employee = {
-      name,
-      surname,
-      age,
-      bio,
-      setofskills: setofpickedskillswithdescription,
-    };
-
     const response = await fetch("/api/skills/many", {
       method: "POST",
       body: JSON.stringify(formFields),
@@ -82,31 +74,47 @@ const EmployeeForm = () => {
     }
     if (response.ok) {
       console.log(json2);
-    }
+      const skillsToAdd = setofpickedskillswithdescription.concat(json2);
 
-    const res = await fetch("/api/employees", {
-      method: "POST",
-      body: JSON.stringify(employee),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await res.json();
+      const employee = {
+        name,
+        surname,
+        age,
+        bio,
+        setofskills: skillsToAdd,
+      };
 
-    if (!res.ok) {
-      setError(json.error);
-    }
-    if (res.ok) {
-      setName("");
-      setSurname("");
-      setAge("");
-      setBio("");
-      setSetOfPickedSkillsWithDescription([]);
-      setError(null);
-      e.target.reset();
+      const res = await fetch("/api/employees", {
+        method: "POST",
+        body: JSON.stringify(employee),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await res.json();
 
-      console.log("new employee added", json);
-      // window.location.reload();
+      if (!res.ok) {
+        setError(json.error);
+      }
+      if (res.ok) {
+        setName("");
+        setSurname("");
+        setAge("");
+        setBio("");
+        setSetOfPickedSkillsWithDescription([]);
+        setError(null);
+        setFormFields([]);
+        e.target.reset();
+        setFormFields([
+          {
+            title: "",
+            details: "",
+          },
+        ]);
+
+        console.log("new employee added", json);
+        // window.location.reload();
+      }
     }
   };
 
