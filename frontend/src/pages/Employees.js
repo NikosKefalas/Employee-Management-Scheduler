@@ -107,21 +107,23 @@ const Employees = () => {
           value={searchPhrase}
           onChange={search}
         />
-        <Button onClick={handleSorting} variant="contained">
+        <Button disableElevation onClick={handleSorting} variant="contained">
           <SortIcon />
           Sort By Surname
         </Button>
-        <Button onClick={handleSortDate} variant="contained">
+        <Button disableElevation onClick={handleSortDate} variant="contained">
           <SortIcon />
           Sort By date
         </Button>
         <Button
-          sx={{
-            background: Colors.dove_gray,
-            ":hover": { background: Colors.success },
-          }}
+          // sx={{
+          //   background: Colors.dove_gray,
+          //   ":hover": { background: Colors.success },
+          // }}
           variant="contained"
           onClick={handleCreate}
+          disableElevation
+          color="success"
         >
           <SortIcon />
           New Employee

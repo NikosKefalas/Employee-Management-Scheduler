@@ -40,8 +40,13 @@ const SkillForm = () => {
   };
 
   return (
-    <Container>
-      <Typography variant="h5" color="primary" gutterBottom>
+    <Box display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+      <Typography
+        textAlign={"center"}
+        variant="h5"
+        color="primary"
+        gutterBottom
+      >
         Create a New Skill
       </Typography>
       <form autoComplete="off" onSubmit={handleSubmit}>
@@ -81,7 +86,7 @@ const SkillForm = () => {
           Add Skill
         </Button>
       </form>
-    </Container>
+    </Box>
   );
 };
 

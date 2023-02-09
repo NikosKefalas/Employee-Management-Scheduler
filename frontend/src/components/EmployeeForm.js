@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { Typography, Box, Input, Grid, styled } from "@mui/material";
+import { Typography, Box, Grid, IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import { Colors } from "../styles/theme";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 const EmployeeForm = () => {
   const navigate = useNavigate();
@@ -24,12 +26,7 @@ const EmployeeForm = () => {
     setSetOfPickedSkillsWithDescription,
   ] = useState([]);
 
-  const [formFields, setFormFields] = useState([
-    {
-      title: "",
-      details: "",
-    },
-  ]);
+  const [formFields, setFormFields] = useState([]);
 
   useEffect(() => {
     fetch("/api/skills")
@@ -112,12 +109,8 @@ const EmployeeForm = () => {
         setError(null);
         setFormFields([]);
         e.target.reset();
-        setFormFields([
-          {
-            title: "",
-            details: "",
-          },
-        ]);
+        setFormFields([]);
+        navigate(-1);
 
         console.log("new employee added", json);
         // window.location.reload();
@@ -125,27 +118,27 @@ const EmployeeForm = () => {
     }
   };
 
-  const showSet = () => {
-    console.log(setofpickedskillswithdescription);
-    console.log(formFields);
-  };
+  // const showSet = () => {
+  //   console.log(setofpickedskillswithdescription);
+  //   console.log(formFields);
+  // };
 
-  const insertNew = async (e) => {
-    e.preventDefault();
+  // const insertNew = async (e) => {
+  //   e.preventDefault();
 
-    const response = await fetch("/api/skills/many", {
-      method: "POST",
-      body: JSON.stringify(formFields),
-      headers: { "content-Type": "application/json" },
-    });
-    const json2 = await response.json();
-    if (!response.ok) {
-      setError(json2.error);
-    }
-    if (response.ok) {
-      console.log(json2);
-    }
-  };
+  //   const response = await fetch("/api/skills/many", {
+  //     method: "POST",
+  //     body: JSON.stringify(formFields),
+  //     headers: { "content-Type": "application/json" },
+  //   });
+  //   const json2 = await response.json();
+  //   if (!response.ok) {
+  //     setError(json2.error);
+  //   }
+  //   if (response.ok) {
+  //     console.log(json2);
+  //   }
+  // };
 
   const handleChangeInput = (e, index) => {
     const values = [...formFields];
@@ -243,66 +236,82 @@ const EmployeeForm = () => {
             </Button>
           </Grid>
         </Grid>
-      </form>
-      <Typography variant="h5" color="primary" textAlign={"center"}>
-        Select Skills
-      </Typography>
-      <Box
-        sx={{ backgroundColor: Colors.primary }}
-        flexDirection={"row"}
-        display={"flex"}
-        padding={"1rem"}
-        margin={"1rem"}
-        flexWrap={"wrap"}
-        color={"white"}
-      >
-        {skills.map((skill) => (
-          <Box key={skill._id}>
-            <Checkbox
-              sx={{
-                color: "white",
-                "&.Mui-checked": {
+
+        <Typography variant="h5" color="primary" textAlign={"center"}>
+          Select Skills
+        </Typography>
+        <Box
+          sx={{ backgroundColor: Colors.primary }}
+          flexDirection={"row"}
+          display={"flex"}
+          padding={"1rem"}
+          margin={"1rem"}
+          flexWrap={"wrap"}
+          color={"white"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          {skills.map((skill) => (
+            <Box key={skill._id}>
+              <Checkbox
+                sx={{
                   color: "white",
-                },
-              }}
-              onChange={handleToggle}
-              id="checkId"
-              value={skill.title}
-              key={skill._id}
-            />
-            <label htmlFor={skill._id}>{skill.title}</label>
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                }}
+                onChange={handleToggle}
+                id="checkId"
+                value={skill.title}
+                key={skill._id}
+              />
+              <label htmlFor={skill._id}>{skill.title}</label>
+            </Box>
+          ))}
+        </Box>
+        {/* <Button onClick={showSet}>Show Set</Button> */}
+        <Typography variant="h5" textAlign={"center"}>
+          Add New Skills
+        </Typography>
+        <Box
+          display={"flex"}
+          flexDirection={"row"}
+          flexWrap={"wrap"}
+          alignItems={"center"}
+        >
+          {formFields.map((formfield, index) => (
+            <Box
+              key={index}
+              display={"flex"}
+              flexDirection={"column"}
+              gap={"1rem"}
+              padding={"1rem"}
+            >
+              <TextField
+                label="Title"
+                name="title"
+                value={formfield.title}
+                onChange={(e) => handleChangeInput(e, index)}
+              />
+              <TextField
+                label="Details"
+                name="details"
+                value={formfield.details}
+                onChange={(e) => handleChangeInput(e, index)}
+              />
+            </Box>
+          ))}
+          <Box>
+            <Button onClick={handleAddInput} disableElevation>
+              <AddIcon />
+            </Button>
+            <Button onClick={deleteInput} disableElevation>
+              <RemoveIcon />
+            </Button>
           </Box>
-        ))}
-      </Box>
-      {/* <Button onClick={showSet}>Show Set</Button> */}
-      <Box display={"flex"} flexDirection={"row"}>
-        <Typography textAlign={"center"}>Add New Skills</Typography>
-        {formFields.map((formfield, index) => (
-          <Box
-            key={index}
-            display={"flex"}
-            flexDirection={"column"}
-            gap={"1rem"}
-            padding={"1rem"}
-          >
-            <TextField
-              label="Title"
-              name="title"
-              value={formfield.title}
-              onChange={(e) => handleChangeInput(e, index)}
-            />
-            <TextField
-              label="Details"
-              name="details"
-              value={formfield.details}
-              onChange={(e) => handleChangeInput(e, index)}
-            />
-          </Box>
-        ))}
-        <Button onClick={handleAddInput}>Add Input</Button>
-        <Button onClick={deleteInput}>Delete Input</Button>
-        {/* <Button onClick={insertNew}>Insert New Skills</Button> */}
-      </Box>
+          {/* <Button onClick={insertNew}>Insert New Skills</Button> */}
+        </Box>
+      </form>
     </Box>
   );
 };

@@ -32,7 +32,14 @@ function SkillWidget() {
       >
         Skill List
       </Typography>
-      <Box display="flex" flexDirection={"row"} gap="1rem" flexWrap={"wrap"}>
+      <Box
+        justifyContent={"center"}
+        alignItems={"center"}
+        display="flex"
+        flexDirection={"row"}
+        gap="1rem"
+        flexWrap={"wrap"}
+      >
         {skills.map((skill) => (
           <Box key={skill._id}>
             <Typography
