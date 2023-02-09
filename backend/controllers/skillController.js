@@ -42,17 +42,17 @@ const createSkill = async (req, res) => {
 };
 
 const createExcel = async (req, res) => {
-  const skill = await Skill.find({}, "title details").lean();
+  const skill = await Skill.find({}, " _id title details").lean();
+  const obj = JSON.parse(JSON.stringify(skill));
 
-  const workSheet = XLSX.utils.json_to_sheet(skill, { skipHeader: false });
+  const workSheet = XLSX.utils.json_to_sheet(obj, { skipHeader: false });
   const workBook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workBook, workSheet, "skills");
-  // console.log(workSheet);
   XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
   XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
 
   XLSX.writeFile(workBook, "skillsData.xlsx");
-  res.status(200).json(skill);
+  res.status(200).json(obj);
 };
 
 const post_many = (req, res) => {
