@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
-import { Typography, Box, Input } from "@mui/material";
+import { Typography, Box, Input, Grid, styled } from "@mui/material";
 import Button from "@mui/material/Button";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
+import { Colors } from "../styles/theme";
 
 const EmployeeForm = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
-  const [age, setAge] = useState("");
-  const [bio, setBio] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const [profession, setProfession] = useState("");
   const [setofskills, setSetOfSkills] = useState("");
   const [error, setError] = useState(null);
   const [skills, setSkills] = useState([]);
@@ -79,8 +82,10 @@ const EmployeeForm = () => {
       const employee = {
         name,
         surname,
-        age,
-        bio,
+        address,
+        city,
+        phone,
+        profession,
         setofskills: skillsToAdd,
       };
 
@@ -99,8 +104,10 @@ const EmployeeForm = () => {
       if (res.ok) {
         setName("");
         setSurname("");
-        setAge("");
-        setBio("");
+        setAddress("");
+        setCity("");
+        setPhone("");
+        setProfession("");
         setSetOfPickedSkillsWithDescription([]);
         setError(null);
         setFormFields([]);
@@ -152,94 +159,123 @@ const EmployeeForm = () => {
 
   const deleteInput = (index) => {
     const values = [...formFields];
-    setFormFields(values.splice(index, 1));
+    values.splice(index, 1);
+    setFormFields(values);
   };
 
   return (
-    <Box display={"flex"} flexDirection={"row"}>
-      <Box width={"20%"}>
-        <Typography variant="h5" color="primary" gutterBottom>
-          Add a New Employee
-        </Typography>
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <TextField
-            sx={{
-              marginTop: 2,
-              marginBottom: 2,
-              color: "primary",
-              display: "block",
-            }}
-            onChange={(e) => setName(e.target.value)}
-            label="Name"
-            variant="outlined"
-            required
-          />
-          <TextField
-            sx={{
-              marginTop: 2,
-              marginBottom: 2,
-              color: "primary",
-              display: "block",
-            }}
-            onChange={(e) => setSurname(e.target.value)}
-            label="Surname"
-            variant="outlined"
-            required
-          />
-          <TextField
-            sx={{
-              marginTop: 2,
-              marginBottom: 2,
-              color: "primary",
-              display: "block",
-            }}
-            onChange={(e) => setAge(e.target.value)}
-            label="Age"
-            variant="outlined"
-            required
-          />
-          <TextField
-            sx={{
-              marginTop: 2,
-              marginBottom: 2,
-              color: "primary",
-              display: "block",
-            }}
-            onChange={(e) => setBio(e.target.value)}
-            label="Bio"
-            variant="outlined"
-            required
-          />
-          <Button
-            type="submit"
-            color="success"
-            variant="contained"
-            disableElevation
-            endIcon={<KeyboardArrowRightIcon />}
-          >
-            Add Employee
-          </Button>
-        </form>
-      </Box>
-      <Box flexDirection={"column"} display={"flex"}>
-        <Typography variant="h5" color="primary" gutterBottom>
-          Select Skills
-        </Typography>
-
+    <Box>
+      <Typography
+        marginTop={"1rem"}
+        variant="h5"
+        color="primary"
+        gutterBottom
+        align="center"
+      >
+        Add a New Employee
+      </Typography>
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <Grid container padding={"1rem"} spacing={1} justifyContent={"center"}>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <TextField
+              fullWidth
+              onChange={(e) => setName(e.target.value)}
+              label="Name"
+              variant="outlined"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <TextField
+              fullWidth
+              onChange={(e) => setSurname(e.target.value)}
+              label="Surname"
+              variant="outlined"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <TextField
+              fullWidth
+              onChange={(e) => setAddress(e.target.value)}
+              label="Address"
+              variant="outlined"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <TextField
+              fullWidth
+              onChange={(e) => setCity(e.target.value)}
+              label="City"
+              variant="outlined"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <TextField
+              fullWidth
+              onChange={(e) => setPhone(e.target.value)}
+              label="Phone"
+              variant="outlined"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <TextField
+              fullWidth
+              onChange={(e) => setProfession(e.target.value)}
+              label="Profession"
+              variant="outlined"
+              required
+            />
+          </Grid>
+          <Grid item width={"300px"}>
+            <Button
+              fullWidth
+              type="submit"
+              color="success"
+              variant="contained"
+              disableElevation
+              endIcon={<KeyboardArrowRightIcon />}
+            >
+              Add Employee
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+      <Typography variant="h5" color="primary" textAlign={"center"}>
+        Select Skills
+      </Typography>
+      <Box
+        sx={{ backgroundColor: Colors.primary }}
+        flexDirection={"row"}
+        display={"flex"}
+        padding={"1rem"}
+        margin={"1rem"}
+        flexWrap={"wrap"}
+        color={"white"}
+      >
         {skills.map((skill) => (
-          <div key={skill._id}>
+          <Box key={skill._id}>
             <Checkbox
+              sx={{
+                color: "white",
+                "&.Mui-checked": {
+                  color: "white",
+                },
+              }}
               onChange={handleToggle}
               id="checkId"
               value={skill.title}
               key={skill._id}
             />
             <label htmlFor={skill._id}>{skill.title}</label>
-          </div>
+          </Box>
         ))}
       </Box>
-      <Button onClick={showSet}>Show Set</Button>
-      <Box>
+      {/* <Button onClick={showSet}>Show Set</Button> */}
+      <Box display={"flex"} flexDirection={"row"}>
         <Typography textAlign={"center"}>Add New Skills</Typography>
         {formFields.map((formfield, index) => (
           <Box
@@ -265,7 +301,7 @@ const EmployeeForm = () => {
         ))}
         <Button onClick={handleAddInput}>Add Input</Button>
         <Button onClick={deleteInput}>Delete Input</Button>
-        <Button onClick={insertNew}>Insert New Skills</Button>
+        {/* <Button onClick={insertNew}>Insert New Skills</Button> */}
       </Box>
     </Box>
   );

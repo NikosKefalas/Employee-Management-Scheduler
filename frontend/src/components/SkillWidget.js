@@ -24,7 +24,12 @@ function SkillWidget() {
   }, [skills]);
   return (
     <WidgetWrapper>
-      <Typography variant="h5" color={Colors.white} sx={{ mb: "1.5rem" }}>
+      <Typography
+        variant="h5"
+        color={Colors.white}
+        sx={{ mb: "1.5rem" }}
+        textAlign="center"
+      >
         Skill List
       </Typography>
       <Box display="flex" flexDirection={"row"} gap="1rem" flexWrap={"wrap"}>

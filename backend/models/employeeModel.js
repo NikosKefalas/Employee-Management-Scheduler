@@ -12,11 +12,20 @@ const employeeSchema = new Schema(
       type: String,
       required: true,
     },
-    age: {
+    address: {
       type: String,
       required: true,
     },
-    bio: {
+    city: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+
+    profession: {
       type: String,
       required: true,
     },
