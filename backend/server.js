@@ -2,13 +2,20 @@ const express = require("express");
 require("dotenv").config();
 const skillRoutes = require("./routes/skill");
 const employeeRoutes = require("./routes/employee");
-
+const morgan = require("morgan");
+const fs = require("fs");
 const mongoose = require("mongoose");
 
 // starting express app
 const app = express();
 mongoose.set("strictQuery", true);
-// middleware
+
+// middleware to keep logs
+app.use(
+  morgan("common", {
+    stream: fs.createWriteStream("./historyLogs", { flags: "a" }),
+  })
+);
 
 app.use(express.json()); //gives acces to request body
 
@@ -16,6 +23,7 @@ app.use(express.json()); //gives acces to request body
 app.use("/api/skills", skillRoutes);
 app.use("/api/employees", employeeRoutes);
 
+//error handling middleware
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong";
