@@ -21,6 +21,8 @@ const Employees = () => {
   const [sorted, setSorted] = useState("ASC");
   const [sortDate, setSortDate] = useState("ASC");
   const [searchPhrase, setSearchPhrase] = useState("");
+  const [searchPhraseSkill, setSearchPhraseSkill] = useState("");
+
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
@@ -85,6 +87,33 @@ const Employees = () => {
     navigate("/api/employees/create");
   };
 
+  const searchSkill = (e) => {
+    if (e.target.value === "") {
+      setEmployees(data);
+      setSearchPhraseSkill(e.target.value);
+    } else {
+      const matched = data.filter((employee) => {
+        // console.log(employee.name);
+        let flag = false;
+        employee.setofskills.forEach((skill) => {
+          // console.log(skill.title);
+          // console.log("-------------");
+          if (
+            `${skill.title}`.toLowerCase() === `${e.target.value}`.toLowerCase()
+          ) {
+            // console.log("Vrethike------");
+            // console.log(employee.name);
+            // console.log(skill.title);
+            flag = true;
+          }
+        });
+        return flag;
+      });
+      setEmployees(matched);
+      setSearchPhraseSkill(e.target.value);
+    }
+  };
+
   return (
     <Box
       maxWidth={matches ? "100%" : "100%"}
@@ -103,9 +132,15 @@ const Employees = () => {
       >
         <Input
           type="text"
-          placeholder="Search..."
+          placeholder="Search by name/surname"
           value={searchPhrase}
           onChange={search}
+        />
+        <Input
+          type="text"
+          placeholder="Search by skills"
+          value={searchPhraseSkill}
+          onChange={searchSkill}
         />
         <Button disableElevation onClick={handleSorting} variant="contained">
           <SortIcon />
