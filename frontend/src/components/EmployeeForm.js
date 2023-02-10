@@ -278,6 +278,7 @@ const EmployeeForm = () => {
           flexDirection={"row"}
           flexWrap={"wrap"}
           alignItems={"center"}
+          marginBottom={"2rem"}
         >
           {formFields.map((formfield, index) => (
             <Box
@@ -301,14 +302,14 @@ const EmployeeForm = () => {
               />
             </Box>
           ))}
-          <Box>
-            <Button onClick={handleAddInput} disableElevation>
-              <AddIcon />
-            </Button>
-            <Button onClick={deleteInput} disableElevation>
-              <RemoveIcon />
-            </Button>
-          </Box>
+
+          <Button onClick={handleAddInput} disableElevation>
+            <AddIcon />
+          </Button>
+          <Button onClick={deleteInput} disableElevation>
+            <RemoveIcon />
+          </Button>
+
           {/* <Button onClick={insertNew}>Insert New Skills</Button> */}
         </Box>
       </form>
