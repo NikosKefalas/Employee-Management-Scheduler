@@ -34,7 +34,7 @@ const SkillCard2 = ({ data }) => {
 
   if (data.createdAt !== undefined) {
     return (
-      <Box justifyContent={"center"} display="flex">
+      <Box justifyContent={"center"} display="flex" marginTop={"2rem"}>
         <Card
           sx={{
             background: Colors.secondary,

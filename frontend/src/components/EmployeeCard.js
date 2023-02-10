@@ -5,17 +5,25 @@ import IconButton from "@mui/material/IconButton";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Typography } from "@mui/material";
-import { Grid } from "@mui/material";
+import { Grid, Avatar, Paper } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
 import { format, parseISO } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
+import { Colors } from "../styles/theme";
 
 const EmployeeCard = ({ data }) => {
   const navigate = useNavigate();
   const handleEdit = () => {
     navigate("/api/employees/update/" + data._id, {
-      state: { name: data.name, surname: data.surname },
+      state: {
+        name: data.name,
+        surname: data.surname,
+        address: data.address,
+        phone: data.phone,
+        city: data.city,
+        profession: data.profession,
+      },
     });
   };
 
@@ -31,53 +39,36 @@ const EmployeeCard = ({ data }) => {
 
   if (data.createdAt !== undefined) {
     return (
-      <div>
-        <Container>
-          <Card
-            sx={{
-              width: "100%",
-              backgroundColor: "#333",
-              borderRadius: 5,
-              boxShadow: "0px 0px 5px 2px",
-              marginTop: 3,
-            }}
-          >
-            <CardHeader
-              title={
-                <Typography gutterBottom variant="h6" color={"#887700"}>
-                  {data.name} {data.surname}
-                  <br /> Age: {data.age}
-                </Typography>
-              }
-              subheader={
-                <Typography color={"secondary"} variant="body1">
-                  {data.bio}
-                </Typography>
-              }
-            />
-            <CardContent>
-              {data.setofskills.map((skill) => (
-                <Typography>{skill.title}</Typography>
-              ))}
-
-              {/* <Typography fontStyle={"italic"} color={"secondary"}>
-                {skill.title}
-              </Typography> */}
-              <Typography fontStyle={"italic"} color={"secondary"}>
-                Created At: {format(parseISO(data.createdAt), "MM/dd/yyyy")}
-              </Typography>
-            </CardContent>
-            <Stack direction="row" marginLeft={10}>
-              <IconButton aria-label="edit" onClick={handleEdit}>
-                <EditOutlinedIcon />
-              </IconButton>
-              <IconButton aria-label="delete" onClick={handleDelete}>
-                <DeleteOutlinedIcon />
-              </IconButton>
-            </Stack>
-          </Card>
-        </Container>
-      </div>
+      <Box
+        marginTop={"2rem"}
+        justifyContent={"center"}
+        display={"flex"}
+        flexDirection={"column"}
+      >
+        <Typography variant="h4" color="primary" textAlign={"center"}>
+          Employee Profile Page
+        </Typography>
+        <Box sx={{ background: Colors.dove_gray }} display={"flex"} flex>
+          <Box justifyContent={"center"} alignItems={"center"}>
+            <Avatar
+              sx={{
+                background: Colors.primary,
+                height: "4rem",
+                width: "4rem",
+              }}
+            >
+              <Typography variant="h4">{data.name[0]}</Typography>
+            </Avatar>
+            <Box display={"flex"} flexDirection={"column"}>
+              <span>{data.address}</span>
+              <span>{data.city}</span>
+              <span>{data.phone}</span>
+              <span>{data.profession}</span>
+            </Box>
+          </Box>
+        </Box>
+        hi
+      </Box>
     );
   }
   return <div></div>;

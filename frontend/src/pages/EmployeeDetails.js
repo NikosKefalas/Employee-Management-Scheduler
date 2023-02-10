@@ -26,11 +26,9 @@ const EmployeeDetails = () => {
   // }, [params.id, data.setofskills]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={6} md={4} lg={3} xl={3}>
-        {data && <EmployeeCard data={data} />}
-      </Grid>
-    </Grid>
+    <div>
+      <EmployeeCard data={data} />
+    </div>
   );
 };
 
