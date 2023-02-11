@@ -15,10 +15,10 @@ const router = express.Router();
 router.get("/", getEmployees);
 
 //add skill  to employee and also to skill list
-router.post("/:id", addSkill);
+router.post("/add/:id/:skillid", addSkill);
 
 //delete skill from employee
-router.post("/:id/:skillid", deleteSkill);
+router.post("/delete/:id/:skillid", deleteSkill);
 
 //get a single employee
 router.get("/:id", getEmployee);

@@ -4,14 +4,14 @@ import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { Grid, Avatar, Paper, styled } from "@mui/material";
+import { Button, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { Avatar, styled } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
 import { format, parseISO } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
-
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import { Colors } from "../styles/theme";
 import HomeIcon from "@mui/icons-material/Home";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
@@ -20,7 +20,11 @@ import WorkIcon from "@mui/icons-material/Work";
 import { useState, useEffect } from "react";
 
 const EmployeeCard = ({ id }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+
   const [data, setData] = useState([]);
+  const [allSkills, setAllSkills] = useState([]);
 
   useEffect(() => {
     fetch("/api/employees/" + id)
@@ -31,6 +35,16 @@ const EmployeeCard = ({ id }) => {
         setData(data);
       });
   }, [data]);
+
+  useEffect(() => {
+    fetch("/api/skills/")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setAllSkills(data);
+      });
+  }, [allSkills]);
 
   const Wrapper = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -66,7 +80,16 @@ const EmployeeCard = ({ id }) => {
   const deleteSkill = async (skill) => {
     // console.log(data._id);
     // console.log(skill);
-    const res = await fetch("/api/employees/" + data._id + "/" + skill, {
+    const res = await fetch("/api/employees/delete/" + data._id + "/" + skill, {
+      method: "POST",
+    });
+    const json = await res.json();
+    if (res.ok) {
+    }
+  };
+
+  const addSkill = async (skill) => {
+    const res = await fetch("/api/employees/add/" + data._id + "/" + skill, {
       method: "POST",
     });
     const json = await res.json();
@@ -126,22 +149,69 @@ const EmployeeCard = ({ id }) => {
           </Box>
         </Wrapper>
         <Box
-          sx={{ background: Colors.dim_grey }}
           display={"flex"}
-          justifyContent={"space-between"}
+          flexDirection={matches ? "row" : "column"}
+          justifyContent={matches ? "space-between" : "center"}
+          margin={matches ? "0" : "1rem"}
         >
-          {data.setofskills.map((skill) => (
-            <Box
-              key={skill._id}
-              display={"flex"}
-              flexDirection={"column"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
-              <Typography>{skill.title}</Typography>
-              <Button onClick={() => deleteSkill(skill._id)}>Delete</Button>
-            </Box>
-          ))}
+          <Box
+            sx={{ background: Colors.dim_grey }}
+            display={"flex"}
+            flexDirection={"column"}
+            flexBasis={"30%"}
+            borderRadius={"2rem"}
+            justifyContent={"center"}
+            paddingX={"2rem"}
+            marginLeft={matches ? "4rem" : "0"}
+          >
+            <Typography variant="h5" textAlign={"center"}>
+              Aquired Skills
+            </Typography>
+            {data.setofskills.map((skill) => (
+              <Box
+                key={skill._id}
+                display={"flex"}
+                flexDirection={"row"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Typography>{skill.title}</Typography>
+                <Button onClick={() => deleteSkill(skill._id)}>
+                  <RemoveIcon />
+                </Button>
+              </Box>
+            ))}
+          </Box>
+          <Box
+            sx={{ background: Colors.light }}
+            display={"flex"}
+            flexDirection={"column"}
+            flexBasis={"30%"}
+            borderRadius={"2rem"}
+            justifyContent={"center"}
+            paddingX={"2rem"}
+            marginRight={matches ? "4rem" : "0"}
+          >
+            <Typography variant="h5" textAlign={"center"}>
+              Aquired Skills
+            </Typography>
+            {allSkills
+              .filter((x) => !data.setofskills.some((y) => x._id === y._id))
+              .map((skill) => (
+                <Box
+                  key={skill._id}
+                  display={"flex"}
+                  flexDirection={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <Typography>{skill.title}</Typography>
+                  <Button onClick={() => addSkill(skill._id)}>
+                    <AddIcon />
+                  </Button>
+                </Box>
+              ))}
+          </Box>
         </Box>
       </Box>
     );

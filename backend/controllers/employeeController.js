@@ -80,26 +80,44 @@ const updateEmployee = async (req, res) => {
 };
 
 //add skill to employee
+// const addSkill = async (req, res, next) => {
+//   const employeeId = req.params.id;
+//   const skill = req.body.title;
+//   if (!(await Skill.findOne({ title: skill }))) {
+//     const newSkill = new Skill(req.body);
+//     try {
+//       const savedSkill = await newSkill.save();
+//       try {
+//         await Employee.findByIdAndUpdate(employeeId, {
+//           $push: { skills_id: savedSkill._id },
+//         });
+//       } catch (err) {
+//         next(err);
+//       }
+//       res.status(200).json(savedSkill);
+//     } catch (err) {
+//       next(err);
+//     }
+//   } else res.status(400).json("Uparxi idi");
+// };
 
 const addSkill = async (req, res, next) => {
   const employeeId = req.params.id;
-  const skill = req.body.title;
-  if (!(await Skill.findOne({ title: skill }))) {
-    const newSkill = new Skill(req.body);
-    try {
-      const savedSkill = await newSkill.save();
-      try {
-        await Employee.findByIdAndUpdate(employeeId, {
-          $push: { skills_id: savedSkill._id },
-        });
-      } catch (err) {
-        next(err);
-      }
-      res.status(200).json(savedSkill);
-    } catch (err) {
-      next(err);
-    }
-  } else res.status(400).json("Uparxi idi");
+  const skillId = req.params.skillid;
+  const skill = await Skill.findOne({ _id: skillId });
+
+  try {
+    await Employee.findByIdAndUpdate(
+      employeeId,
+      {
+        $push: { setofskills: skill },
+      },
+      { new: true }
+    );
+  } catch (err) {
+    next(err);
+  }
+  res.status(200).json(skill);
 };
 
 //delete skill from employee
@@ -113,7 +131,7 @@ const deleteSkill = async (req, res, next) => {
     const employee = await Employee.findByIdAndUpdate(
       { _id: employeeId },
       {
-        $pull: { setofskills: { _id: skillid } },
+        $pull: { setofskills: { _id: mongoose.Types.ObjectId(skillid) } },
       },
       { new: true }
     );
