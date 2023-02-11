@@ -107,10 +107,16 @@ const addSkill = async (req, res, next) => {
 const deleteSkill = async (req, res, next) => {
   const employeeId = req.params.id;
   const skillid = req.params.skillid;
+  // console.log(employeeId);
+  // console.log(skillid);
   try {
-    const employee = await Employee.findByIdAndUpdate(employeeId, {
-      $pull: { skills_id: skillid },
-    });
+    const employee = await Employee.findByIdAndUpdate(
+      { _id: employeeId },
+      {
+        $pull: { setofskills: { _id: skillid } },
+      },
+      { new: true }
+    );
     res.status(200).json(employee);
   } catch (err) {
     next(err);

@@ -100,7 +100,10 @@ const deleteSkill = async (req, res) => {
     return res.status(400).json({ error: "No such id" });
   }
   const skill = await Skill.findOneAndDelete({ _id: id });
-  const employee = await Employee.updateMany({}, { $pull: { skills_id: id } });
+  const employee = await Employee.updateMany(
+    {},
+    { $pull: { setofskills: id } }
+  );
 
   if (!skill) {
     return res.status(400).json({ error: "No such skill" });

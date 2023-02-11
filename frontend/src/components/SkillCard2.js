@@ -46,9 +46,7 @@ const SkillCard2 = ({ data }) => {
         >
           <CardHeader
             avatar={
-              <Avatar sx={{ background: Colors.primary }}>
-                {data.title[0]}
-              </Avatar>
+              <Avatar sx={{ background: Colors.dark }}>{data.title[0]}</Avatar>
             }
             title={
               <Typography variant="h5" fontWeight={"bold"} color={Colors.black}>

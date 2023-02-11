@@ -27,7 +27,7 @@ const EmployeeDetails = () => {
 
   return (
     <div>
-      <EmployeeCard data={data} />
+      <EmployeeCard id={params.id} />
     </div>
   );
 };
