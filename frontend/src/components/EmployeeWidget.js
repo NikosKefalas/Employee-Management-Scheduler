@@ -1,23 +1,24 @@
 import { Typography, Box, Checkbox, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Colors } from "../styles/theme";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 import EmployeeForm from "./EmployeeForm";
 
-function EmployeeWidget({ toggle }) {
-  const [employees, setEmployees] = useState([]);
+function EmployeeWidget({ employees, toggle }) {
+  // const [employees, setEmployees] = useState([]);
   const [pickedEmployees, setPickedEmployees] = useState([]);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("/api/employees/")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setEmployees(data);
-      });
-  }, [employees]);
+  // useEffect(() => {
+  //   fetch("/api/employees/")
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setEmployees(data);
+  //     });
+  // }, [employees]);
 
   const handleToggle = (employeeFlag) => {
     if (pickedEmployees.includes(employeeFlag)) {
@@ -40,6 +41,7 @@ function EmployeeWidget({ toggle }) {
     });
     const json = await res.json();
     if (res.ok) {
+      navigate("/api/employees/");
     }
   };
 

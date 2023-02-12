@@ -6,6 +6,7 @@ import {
   useTheme,
   TextField,
   Typography,
+  Checkbox,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -13,6 +14,7 @@ import SortIcon from "@mui/icons-material/Sort";
 import EmployeeWidget from "../components/EmployeeWidget.js";
 import { Colors } from "../styles/theme/index.js";
 import { useNavigate } from "react-router-dom";
+import { format, parseISO } from "date-fns";
 
 const Employees = () => {
   const theme = useTheme();
@@ -24,6 +26,7 @@ const Employees = () => {
   const [searchPhraseSkill, setSearchPhraseSkill] = useState("");
   const [toggle, setToggle] = useState(false);
 
+  const [pickedEmployees, setPickedEmployees] = useState([]);
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   console.log(toggle);
@@ -116,6 +119,40 @@ const Employees = () => {
     }
   };
 
+  const handleToggle = (employeeFlag) => {
+    if (pickedEmployees.includes(employeeFlag)) {
+      setPickedEmployees(pickedEmployees.filter((el) => el !== employeeFlag));
+    } else {
+      setPickedEmployees(pickedEmployees.concat(employeeFlag));
+    }
+  };
+
+  const deleteMany = async () => {
+    let Ids = Object.assign({});
+    Ids = pickedEmployees.map((employee) =>
+      Object.assign({}, Ids, { _id: employee._id })
+    );
+    console.log(Ids);
+    const res = await fetch("/api/employees/deletemany", {
+      method: "DELETE",
+      body: JSON.stringify(Ids),
+      headers: { "content-Type": "application/json" },
+    });
+    const json = await res.json();
+    if (res.ok) {
+      fetch("/api/employees")
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          data.sort((a, b) => a.surname.localeCompare(b.surname));
+          setEmployees(data);
+          setData(data);
+          setSorted("DSC");
+        });
+    }
+  };
+
   return (
     <Box
       maxWidth={matches ? "100%" : "100%"}
@@ -178,7 +215,65 @@ const Employees = () => {
         </Button>
       </Box>
       <Box>
-        <EmployeeWidget toggle={toggle} />
+        {/* <EmployeeWidget employees={employees} toggle={toggle} /> */}
+
+        <Box
+          backgroundColor={Colors.primary}
+          display="flex"
+          flexDirection={"column"}
+          alignItems={"center"}
+          padding={"0.2rem"}
+        >
+          <Typography variant="h5" color={Colors.white} sx={{ mb: "1.5rem" }}>
+            Employee List
+          </Typography>
+          {toggle && (
+            <Button sx={{ background: Colors.white }} onClick={deleteMany}>
+              Delete Many
+            </Button>
+          )}
+          <Box
+            display="flex"
+            flexDirection={"row"}
+            gap="0.5rem"
+            flexWrap={"wrap"}
+            justifyContent={"center"}
+            textAlign={"center"}
+            alignItems={"center"}
+          >
+            {employees.map((employee) => (
+              <Box key={employee._id} display={"flex"} flexDirection={"column"}>
+                <Typography
+                  sx={{ textDecoration: "none" }}
+                  color={Colors.white}
+                  component={Link}
+                  to={"/api/employees/" + employee._id}
+                  fontSize={"1rem"}
+                >
+                  {employee.name}
+                  <br></br>
+                  {employee.surname}
+                  <br></br>
+                  {format(parseISO(employee.createdAt), "MM/dd/yyyy")}
+                </Typography>
+                {toggle && (
+                  <Checkbox
+                    sx={{
+                      color: "white",
+                      "&.Mui-checked": {
+                        color: "white",
+                      },
+                    }}
+                    onChange={() => handleToggle(employee)}
+                    value={employee}
+                    name={employee.name}
+                    key={employee._id}
+                  ></Checkbox>
+                )}
+              </Box>
+            ))}
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

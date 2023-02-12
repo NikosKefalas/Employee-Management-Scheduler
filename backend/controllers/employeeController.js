@@ -107,7 +107,7 @@ const addSkill = async (req, res, next) => {
   const employeeId = req.params.id;
   const skillId = req.params.skillid;
   const skill = await Skill.findOne({ _id: skillId });
-  console.log(skill);
+  // console.log(skill);
 
   try {
     await Employee.findByIdAndUpdate(
@@ -129,8 +129,8 @@ const deleteSkill = async (req, res, next) => {
   console.log(req.params);
   const employeeId = req.params.id;
   const skillid = req.params.skillid;
-  console.log(employeeId);
-  console.log(skillid);
+  // console.log(employeeId);
+  // console.log(skillid);
 
   try {
     const employee = await Employee.findByIdAndUpdate(
@@ -156,10 +156,10 @@ const deleteSkill = async (req, res, next) => {
 };
 
 const deleteMany = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const userIds = req.body;
   const employee = await Employee.deleteMany({ _id: { $in: userIds } });
-  console.log(employee);
+  // console.log(employee);
 
   if (!employee) {
     return res.status(400).json({ error: "No such employees" });
