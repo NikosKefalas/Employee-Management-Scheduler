@@ -58,6 +58,8 @@ const deleteEmployee = async (req, res) => {
   res.status(200).json(employee);
 };
 
+//delete many employee
+
 //update employee
 
 const updateEmployee = async (req, res) => {
@@ -105,6 +107,7 @@ const addSkill = async (req, res, next) => {
   const employeeId = req.params.id;
   const skillId = req.params.skillid;
   const skill = await Skill.findOne({ _id: skillId });
+  console.log(skill);
 
   try {
     await Employee.findByIdAndUpdate(
@@ -123,15 +126,26 @@ const addSkill = async (req, res, next) => {
 //delete skill from employee
 
 const deleteSkill = async (req, res, next) => {
+  console.log(req.params);
   const employeeId = req.params.id;
   const skillid = req.params.skillid;
-  // console.log(employeeId);
-  // console.log(skillid);
+  console.log(employeeId);
+  console.log(skillid);
+
   try {
     const employee = await Employee.findByIdAndUpdate(
-      { _id: employeeId },
+      { _id: mongoose.Types.ObjectId(employeeId) },
       {
-        $pull: { setofskills: { _id: mongoose.Types.ObjectId(skillid) } },
+        $pull: {
+          setofskills: {
+            $or: [
+              { _id: mongoose.Types.ObjectId(skillid) },
+              {
+                _id: skillid,
+              },
+            ],
+          },
+        },
       },
       { new: true }
     );
@@ -139,6 +153,18 @@ const deleteSkill = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+const deleteMany = async (req, res) => {
+  console.log(req.body);
+  const userIds = req.body;
+  const employee = await Employee.deleteMany({ _id: { $in: userIds } });
+  console.log(employee);
+
+  if (!employee) {
+    return res.status(400).json({ error: "No such employees" });
+  }
+  res.status(200).json(employee);
 };
 
 module.exports = {
@@ -149,4 +175,5 @@ module.exports = {
   updateEmployee,
   addSkill,
   deleteSkill,
+  deleteMany,
 };

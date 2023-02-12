@@ -22,9 +22,11 @@ const Employees = () => {
   const [sortDate, setSortDate] = useState("ASC");
   const [searchPhrase, setSearchPhrase] = useState("");
   const [searchPhraseSkill, setSearchPhraseSkill] = useState("");
+  const [toggle, setToggle] = useState(false);
 
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  console.log(toggle);
 
   useEffect(() => {
     fetch("/api/employees")
@@ -163,9 +165,20 @@ const Employees = () => {
           <SortIcon />
           New Employee
         </Button>
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{
+            backgroundColor:
+              toggle === true ? Colors.dim_grey : Colors.dove_gray,
+          }}
+          onClick={() => setToggle(!toggle)}
+        >
+          Toggle Delete
+        </Button>
       </Box>
       <Box>
-        <EmployeeWidget employees={employees} />
+        <EmployeeWidget toggle={toggle} />
       </Box>
     </Box>
   );

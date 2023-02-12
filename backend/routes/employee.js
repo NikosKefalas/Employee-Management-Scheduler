@@ -7,6 +7,7 @@ const {
   getEmployees,
   deleteEmployee,
   updateEmployee,
+  deleteMany,
 } = require("../controllers/employeeController");
 
 const router = express.Router();
@@ -18,7 +19,10 @@ router.get("/", getEmployees);
 router.post("/add/:id/:skillid", addSkill);
 
 //delete skill from employee
-router.post("/delete/:id/:skillid", deleteSkill);
+router.post("/:id/:skillid", deleteSkill);
+
+//Delete multiple Employees
+router.delete("/deletemany", deleteMany);
 
 //get a single employee
 router.get("/:id", getEmployee);

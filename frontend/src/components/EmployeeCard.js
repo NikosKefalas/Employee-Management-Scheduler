@@ -80,7 +80,7 @@ const EmployeeCard = ({ id }) => {
   const deleteSkill = async (skill) => {
     // console.log(data._id);
     // console.log(skill);
-    const res = await fetch("/api/employees/delete/" + data._id + "/" + skill, {
+    const res = await fetch("/api/employees/" + data._id + "/" + skill, {
       method: "POST",
     });
     const json = await res.json();
