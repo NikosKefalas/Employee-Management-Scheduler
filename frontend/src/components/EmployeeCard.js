@@ -1,9 +1,3 @@
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import IconButton from "@mui/material/IconButton";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Button, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { Avatar, styled } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
@@ -11,6 +5,8 @@ import { format, parseISO } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import RemoveIcon from "@mui/icons-material/Remove";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import { Colors } from "../styles/theme";
 import HomeIcon from "@mui/icons-material/Home";
@@ -45,13 +41,6 @@ const EmployeeCard = ({ id }) => {
         setAllSkills(data);
       });
   }, [allSkills]);
-
-  const Wrapper = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    padding: "1.5rem 1.5rem 0.75rem 1.5rem",
-    backgroundColor: Colors.dove_gray,
-  }));
 
   const navigate = useNavigate();
   const handleEdit = () => {
@@ -99,11 +88,26 @@ const EmployeeCard = ({ id }) => {
 
   if (data.createdAt !== undefined) {
     return (
-      <Box>
-        <Wrapper justifyContent={"center"} alignItems={"center"}>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Box
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          width={"100%"}
+          padding={"2rem"}
+          sx={{ backgroundColor: Colors.dove_gray }}
+          marginBottom={"1rem"}
+        >
           <Typography variant="h5" textAlign="center">
             Emplooyee Profile Page
           </Typography>
+
           <Box marginTop={"2rem"} display={"flex"} flexDirection={"row"}>
             <Box
               display={"flex"}
@@ -119,6 +123,21 @@ const EmployeeCard = ({ id }) => {
               <Typography variant="h6">
                 {data.name} {data.surname}
               </Typography>
+              <Box
+                justifyContent={"center"}
+                alignItems={"center"}
+                display={"flex"}
+                flexDirection={"row"}
+                width={"100%"}
+                gap={"1rem"}
+              >
+                <Button variant="contained" onClick={handleEdit}>
+                  <EditOutlinedIcon />
+                </Button>
+                <Button variant="contained" onClick={handleDelete}>
+                  <DeleteOutlinedIcon />
+                </Button>
+              </Box>
             </Box>
             <Box paddingLeft={"2rem"} display={"flex"} flexDirection={"column"}>
               <Box display={"flex"} flexDirection={"row"} alignItems={"center"}>
@@ -147,12 +166,15 @@ const EmployeeCard = ({ id }) => {
               </Box>
             </Box>
           </Box>
-        </Wrapper>
+        </Box>
+
         <Box
           display={"flex"}
           flexDirection={matches ? "row" : "column"}
-          justifyContent={matches ? "space-between" : "center"}
-          margin={matches ? "0" : "1rem"}
+          justifyContent={matches ? "space-around" : "center"}
+          margin={matches ? "0" : "0"}
+          gap={matches ? "0" : "1rem"}
+          width={"100%"}
         >
           <Box
             sx={{ background: Colors.dim_grey }}
@@ -182,6 +204,7 @@ const EmployeeCard = ({ id }) => {
               </Box>
             ))}
           </Box>
+
           <Box
             sx={{ background: Colors.light }}
             display={"flex"}
