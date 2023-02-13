@@ -69,6 +69,19 @@ and Frontend folder.
     - GET all skills in .xslx file which is saved in the backend folder :localhost:4000/api/skills/excel
 
 
+## Personal Thoughts
+
+
+Thanks for giving me the oportunity to be part of this challenge. During the development of the project, I learned  new concepts,
+acquired new skills and also became more familiar with the ones I already know. It was also a process that  helped me find areas that need improvement.
+Looking forward to speaking with you soon,
+
+Kind regards,
+
+Nikos Kefalas
+
+
+
 
 
 
