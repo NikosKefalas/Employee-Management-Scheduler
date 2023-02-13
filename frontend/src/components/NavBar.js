@@ -2,7 +2,6 @@ import { AppBar, Toolbar, Typography, styled, Link, Box } from "@mui/material";
 import { Colors } from "../styles/theme";
 
 export const AppbarHeader = styled(Typography)(() => ({
-  // padding: "10px",
   flexGrow: 1,
   fontSize: "2rem",
 }));

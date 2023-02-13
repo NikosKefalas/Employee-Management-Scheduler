@@ -9,14 +9,20 @@ import {
 } from "@mui/material";
 import SkillForm from "../components/SkillForm";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Skills = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
+  // const [data, setData] = useState([]);
+  const [excel, setExcel] = useState(false);
 
   const createExcel = () => {
-    navigate("/api/skills/excel");
+    fetch("/api/skills/excel").then((response) => {
+      response.json();
+      setExcel(true);
+    });
   };
 
   return (
@@ -35,14 +41,14 @@ const Skills = () => {
         gap={"1rem"}
       >
         <SkillWidget />
-        <Button
-          onClick={createExcel}
-          href="/api/skills"
-          variant="contained"
-          color="success"
-        >
+        <Button onClick={createExcel} variant="contained" color="success">
           Download Skills in .xlsx format
         </Button>
+        {excel && (
+          <Typography fontWeight={"bold"}>
+            XLSX Created and Stored in Backend Folder!
+          </Typography>
+        )}
       </Box>
       <Box flexBasis="100%">
         <SkillForm />

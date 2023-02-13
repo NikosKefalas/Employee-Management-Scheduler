@@ -5,14 +5,12 @@ const XLSX = require("xlsx");
 const { find } = require("../models/skillModel.js");
 const { json } = require("body-parser");
 
-//get all skills
 const getSkills = async (req, res, next) => {
   const skill = await Skill.find({});
 
   res.status(200).json(skill);
 };
 
-//get a single skill
 const getSkill = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -26,7 +24,6 @@ const getSkill = async (req, res) => {
   res.status(200).json(skill);
 };
 
-//create a new skill
 const createSkill = async (req, res) => {
   const { title, details } = req.body;
 
@@ -65,35 +62,6 @@ const post_many = (req, res) => {
     });
 };
 
-// const post_many_skill = async (req, res) => {
-//   console.log(req.body);
-
-//   req.body.forEach(async (el) => {
-//     if (!(await Skill.findOne({ title: el.title }))) {
-//       console.log("mpika sto if");
-//       console.log(el.title);
-//       try {
-//         console.log("eimai sto try");
-//         const skill = await Skill.create({
-//           title: el.title,
-//           details: el.details,
-//         });
-//         console.log(skill);
-//         console.log("egine to skill");
-//         res.status(200).json(skill);
-//       } catch (error) {
-//         console.log("mpika sto catch");
-//         console.log({ error: error.message });
-//       }
-//     } else {
-//       console.log("mpika sto else");
-//       res.status(400).json("This skills already exists!");
-//       next();
-//     }
-//   });
-// };
-
-//delete a skill
 const deleteSkill = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -111,7 +79,6 @@ const deleteSkill = async (req, res) => {
   res.status(200).json(skill);
 };
 
-//update a skill
 const updateSkill = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {

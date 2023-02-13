@@ -6,19 +6,8 @@ import { format, parseISO } from "date-fns";
 import EmployeeForm from "./EmployeeForm";
 
 function EmployeeWidget({ employees, toggle }) {
-  // const [employees, setEmployees] = useState([]);
   const [pickedEmployees, setPickedEmployees] = useState([]);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   fetch("/api/employees/")
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setEmployees(data);
-  //     });
-  // }, [employees]);
 
   const handleToggle = (employeeFlag) => {
     if (pickedEmployees.includes(employeeFlag)) {

@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import theme from "./styles/theme";
 import Home from "./pages/Home";
 import Skills from "./pages/Skills";
-import Register from "./pages/Register";
 import SkillDetails from "./pages/SkillDetails";
 import UpdateSkill from "./pages/UpdateSkill";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
@@ -32,7 +31,7 @@ function App() {
               path="/api/employees/update/:id"
               element={<UpdateEmployee />}
             />
-            <Route path="/api/auth/register" element={<Register />} />
+
             <Route path="/api/skills/:id" element={<SkillDetails />} />
             <Route path="/api/skills/update/:id" element={<UpdateSkill />} />
             <Route path="/api/skills/create" element={<CreateSkill />} />

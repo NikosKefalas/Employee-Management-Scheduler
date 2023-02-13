@@ -113,32 +113,9 @@ const EmployeeForm = () => {
         navigate(-1);
 
         console.log("new employee added", json);
-        // window.location.reload();
       }
     }
   };
-
-  // const showSet = () => {
-  //   console.log(setofpickedskillswithdescription);
-  //   console.log(formFields);
-  // };
-
-  // const insertNew = async (e) => {
-  //   e.preventDefault();
-
-  //   const response = await fetch("/api/skills/many", {
-  //     method: "POST",
-  //     body: JSON.stringify(formFields),
-  //     headers: { "content-Type": "application/json" },
-  //   });
-  //   const json2 = await response.json();
-  //   if (!response.ok) {
-  //     setError(json2.error);
-  //   }
-  //   if (response.ok) {
-  //     console.log(json2);
-  //   }
-  // };
 
   const handleChangeInput = (e, index) => {
     const values = [...formFields];
@@ -269,7 +246,7 @@ const EmployeeForm = () => {
             </Box>
           ))}
         </Box>
-        {/* <Button onClick={showSet}>Show Set</Button> */}
+
         <Typography variant="h5" textAlign={"center"}>
           Add New Skills
         </Typography>
@@ -309,8 +286,6 @@ const EmployeeForm = () => {
           <Button onClick={deleteInput} disableElevation>
             <RemoveIcon />
           </Button>
-
-          {/* <Button onClick={insertNew}>Insert New Skills</Button> */}
         </Box>
       </form>
     </Box>

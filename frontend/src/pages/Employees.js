@@ -158,8 +158,6 @@ const Employees = () => {
       maxWidth={matches ? "100%" : "100%"}
       paddingX={!matches ? "1rem" : "5rem"}
       marginTop={"1rem"}
-      // marginLeft={matches ? "1rem" : 0}
-      // marginRight={matches ? "1rem" : 0}
       display={"flex"}
       gap={"1rem"}
       flexDirection={matches ? "column" : "column"}
@@ -190,10 +188,6 @@ const Employees = () => {
           Sort By date
         </Button>
         <Button
-          // sx={{
-          //   background: Colors.dove_gray,
-          //   ":hover": { background: Colors.success },
-          // }}
           variant="contained"
           onClick={handleCreate}
           disableElevation
@@ -215,8 +209,6 @@ const Employees = () => {
         </Button>
       </Box>
       <Box>
-        {/* <EmployeeWidget employees={employees} toggle={toggle} /> */}
-
         <Box
           backgroundColor={Colors.primary}
           display="flex"

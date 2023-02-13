@@ -35,7 +35,6 @@ const SkillForm = () => {
       setError(null);
       e.target.reset();
       console.log("new skill added", json);
-      // window.location.reload();
     }
   };
 

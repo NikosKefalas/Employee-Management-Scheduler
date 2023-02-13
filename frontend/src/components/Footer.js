@@ -19,7 +19,7 @@ export default function Footer() {
   return (
     <FooterBox>
       <Typography textAlign={"center"} variant="h6">
-        Created by Indeavor Team
+        Indeavor's team Challenge!
       </Typography>
     </FooterBox>
   );

@@ -14,6 +14,7 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import PhoneIcon from "@mui/icons-material/Phone";
 import WorkIcon from "@mui/icons-material/Work";
 import { useState, useEffect } from "react";
+import UpdateIcon from "@mui/icons-material/Update";
 
 const EmployeeCard = ({ id }) => {
   const theme = useTheme();
@@ -67,8 +68,6 @@ const EmployeeCard = ({ id }) => {
   };
 
   const deleteSkill = async (skill) => {
-    // console.log(data._id);
-    // console.log(skill);
     const res = await fetch("/api/employees/" + data._id + "/" + skill, {
       method: "POST",
     });
@@ -162,6 +161,12 @@ const EmployeeCard = ({ id }) => {
                 <WorkIcon />
                 <Typography sx={{ paddingLeft: "0.5rem" }}>
                   {data.profession}
+                </Typography>
+              </Box>
+              <Box display={"flex"} flexDirection={"row"} alignItems={"center"}>
+                <UpdateIcon />
+                <Typography sx={{ paddingLeft: "0.5rem" }}>
+                  Updated : {format(parseISO(data.updatedAt), "MM/dd/yyyy")}
                 </Typography>
               </Box>
             </Box>
