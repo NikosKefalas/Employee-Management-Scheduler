@@ -1,4 +1,4 @@
-# Employee-Management-Scheduler
+# Software Engineer Challenge-Employee Management Scheduler
 
 Authors: Nikos Kefalas
 
